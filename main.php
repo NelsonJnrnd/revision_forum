@@ -19,7 +19,7 @@ $infoUser = getUserByLogin($_SESSION['login']);
 $message = "Bonjour " . $infoUser["name"] . " " . $infoUser["surname"] . ", voici votre fil d'actualités";
 $error = "";
 
-$title = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_STRING);
+$title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
 $description = filter_input(INPUT_POST, "description", FILTER_SANITIZE_STRING);
 
 $posts = getPost();
@@ -56,7 +56,7 @@ if (filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING) == "Inserer") {
             <fieldset>
                 <legend>Nouveau post</legend>
                 Titre:<br>
-                <input type="text" name="titre" value="<?php
+                <input type="text" name="title" value="<?php
                 if (!empty($title)) {
                     echo $title;
                 }
@@ -86,7 +86,7 @@ if (filter_input(INPUT_POST, "action", FILTER_SANITIZE_STRING) == "Inserer") {
             $display .= "<p>" . $posts[$nbPost]["description"] . "</p>";
 
             if ($_SESSION["login"] == $author["login"]) {
-               $display .= "<a>Modifier</a>" . " " .  "<a>Supprimer</a>";
+               $display .= "<a href=\"updateNews.php?post=" . $posts[$nbPost]["idNews"] . "\">Modifier</a>" . " " .  "<a href=\"deleteNews.php?post=" . $posts[$nbPost]["idNews"] . "\">Supprimer</a>";
             }
             $display .= "</div>";
             echo $display;

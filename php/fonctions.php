@@ -95,8 +95,8 @@ function insertPost($title, $description, $idUser) {
     }
 }
 
-function getPost(){
-       $db = connectDb();
+function getPost() {
+    $db = connectDb();
     $sql = "SELECT * FROM news";
     $request = $db->prepare($sql);
     if ($request->execute(array())) {
@@ -107,7 +107,7 @@ function getPost(){
     }
 }
 
-function getUserById($idUser){
+function getUserById($idUser) {
     $db = connectDb();
     $sql = "SELECT login, surname, name FROM users "
             . "WHERE idUser = :idUser";
@@ -121,6 +121,53 @@ function getUserById($idUser){
         return NULL;
     }
 }
-function getPostById(){
-    
+
+function getPostById($idPost) {
+    $db = connectDb();
+    $sql = "SELECT * FROM news "
+            . "WHERE idNews = :idPost";
+
+    $request = $db->prepare($sql);
+    if ($request->execute(array(
+                'idPost' => $idPost))) {
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } else {
+        return NULL;
+    }
+}
+
+//A faire - marche pas 
+//Invalid parameter number: number of bound variables does not match number of tokens'
+function updatePost($title, $description, $idPost) {
+
+    $db = connectDb();
+    $sql = "UPDATE News"
+            . " SET title = :title,"
+            . " description = :description,"
+            . " lastEditDate = :date"
+            . " WHERE idNews = :idPost";
+
+    $request = $db->prepare($sql);
+    if ($request->execute(array(
+                'title' => $title,
+                'description' => $description,
+                'date' => date("Y-m-d H:i:s"),
+                'idPost' => $idPost))) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+function deltePost($idPost) {
+    $db = connectDb();
+    $sql = "DELETE FROM news WHERE idNews = :idPost";
+
+    $request = $db->prepare($sql);
+    if ($request->execute(array('idPost' => $idPost))) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
