@@ -1,0 +1,24 @@
+/*
+  Titre: revision_forum
+
+  Auteur: Jeanrenaud Nelson
+  Description : Un site d’échange d’information basique, une sorte de petit forum, vous permettant de poster des nouvelles.
+  Version: 1.0.0
+  Date: 30.08.2018
+  Copyright: Entreprise Ecole CFPT-I © 2018
+  --------------------------------------------------------------------------------
+  Fichier CSS à inclure dans toutes les pages du site
+*/
+
+textarea {
+    resize: none;
+}
+.erreur{
+    color: red;
+}
+div{
+    margin: 50px;
+    padding: 10px;
+    background-color: lightgray;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

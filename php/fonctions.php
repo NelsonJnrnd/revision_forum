@@ -9,7 +9,7 @@
   Date: 30.08.2018
   Copyright: Entreprise Ecole CFPT-I © 2018
   --------------------------------------------------------------------------------
-  Fichier à inclure dans toutes les pages php du site
+  Fichier de fonction PHP à inclure dans toutes les pages PHP du site
  */
 require_once 'dbconnection.php';
 
@@ -21,11 +21,16 @@ function login($id, $pwd) {
         return false;
     }
     $_SESSION["login"] = $identificationStatus["login"];
-    $_SESSION["surname"] = $identificationStatus["surname"];
-    $_SESSION["name"] = $identificationStatus["name"];
-
     $_SESSION["logged"] = true;
     return true;
+}
+
+function logout() {
+    $_SESSION = array();
+    session_destroy();
+    session_start();
+    header("Location: ./index.php");
+    exit;
 }
 
 function checkIdentification($id, $pwd) {
@@ -44,7 +49,22 @@ function checkIdentification($id, $pwd) {
     }
 }
 
-function createNewAdmin($id, $name, $surname, $pwd) {
+function getUserByLogin($login) {
+    $db = connectDb();
+    $sql = "SELECT idUser, surname, name FROM users "
+            . "WHERE login = :login";
+
+    $request = $db->prepare($sql);
+    if ($request->execute(array(
+                'login' => $login))) {
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } else {
+        return NULL;
+    }
+}
+
+function createNewUser($id, $name, $surname, $pwd) {
     $db = connectDb();
     $sql = "INSERT INTO users(surname, name, login, password) " .
             "VALUES (:surname, :name, :login, :password)";
@@ -58,4 +78,49 @@ function createNewAdmin($id, $name, $surname, $pwd) {
     } else {
         return NULL;
     }
+}
+
+function insertPost($title, $description, $idUser) {
+    $db = connectDb();
+    $sql = "INSERT INTO news(title, description, idUser) " .
+            "VALUES (:title, :description, :idUser)";
+    $request = $db->prepare($sql);
+    if ($request->execute(array(
+                'title' => $title,
+                'description' => $description,
+                'idUser' => $idUser))) {
+        return $db->lastInsertID();
+    } else {
+        return FALSE;
+    }
+}
+
+function getPost(){
+       $db = connectDb();
+    $sql = "SELECT * FROM news";
+    $request = $db->prepare($sql);
+    if ($request->execute(array())) {
+        $result = $request->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } else {
+        return NULL;
+    }
+}
+
+function getUserById($idUser){
+    $db = connectDb();
+    $sql = "SELECT login, surname, name FROM users "
+            . "WHERE idUser = :idUser";
+
+    $request = $db->prepare($sql);
+    if ($request->execute(array(
+                'idUser' => $idUser))) {
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } else {
+        return NULL;
+    }
+}
+function getPostById(){
+    
 }

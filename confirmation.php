@@ -8,20 +8,28 @@
   Copyright: Entreprise Ecole CFPT-I © 2018
  */
 
-require_once 'php/fonctions.php';
+require_once "php/fonctions.php";
 
-$message = "Bonjour " . $_SESSION["name"] . " " . $_SESSION["surname"]  . " vous êtes connecté(e) !";
+if (empty($_SESSION["login"])) {
+    header("Location: ./index.php");
+}
+
+$infoUser = getUserByLogin($_SESSION['login']);
+
+$message = "Bonjour " . $infoUser["name"] . " " . $infoUser["surname"] . " vous êtes connecté(e) !";
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Bienvenue</title>
     </head>
     <body>
-        <p>  <?php
-   echo $message;
-        ?>
-            </p>
+        <h1>  <?php
+            echo $message;
+            ?>
+        </h1>
+            <a href="main.php">Écrire un post</a>
     </body>
 </html>

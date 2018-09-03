@@ -8,7 +8,7 @@
   Copyright: Entreprise Ecole CFPT-I © 2018
  */
 
-require_once 'php/fonctions.php';
+require_once "php/fonctions.php";
 
 $id = trim(filter_input(INPUT_POST, "id", FILTER_SANITIZE_STRING));
 $pwd = trim(filter_input(INPUT_POST, "pwd", FILTER_SANITIZE_STRING));
@@ -27,7 +27,7 @@ if (empty($id) || empty($pwd) || empty($pwd2) || empty($name) || empty($surname)
     $message = "Tous les champs ne sont pas remplis";
 }
 if (!$error) {
-    createNewAdmin($id, $name, $surname, $pwd);
+    createNewUser($id, $name, $surname, $pwd);
     header("Location:index.php");
     exit;
 }
@@ -36,28 +36,29 @@ if (!$error) {
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Inscrivez vous!</title>
     </head>
     <body>
         <form action="" method="POST">
             <fieldset>
                 <legend>Inscription</legend>
                 Prénom:<br>
-                <input type="text" name="name" value="<?php echo $name ?>"><br>
+                <input type="text" name="name" value="<?php echo $name ?>" required autofocus><br>
                 Nom:<br>
-                <input type="text" name="surname" value="<?php echo $surname ?>"><br>
+                <input type="text" name="surname" value="<?php echo $surname ?>" required><br>
                 Identifiant:<br>
-                <input type="text" name="id" value="<?php echo $id ?>"><br>
+                <input type="text" name="id" value="<?php echo $id ?>" required><br>
                 Mot de passe:<br>
-                <input type="password" name="pwd" value=""><br>
+                <input type="password" name="pwd" value="" required><br>
                 Validation du mot de passe:<br>
-                <input type="password" name="pwd2" value=""><br><br>
+                <input type="password" name="pwd2" value="" required><br><br>
                 <input type="submit" value="Valider">
             </fieldset>   
             <a href="index.php">Retour sur connexion</a>
             <p><?php
-echo $message;
-?></p>
+                echo $message;
+                ?></p>
         </form>
     </body>
 </html>

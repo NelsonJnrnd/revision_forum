@@ -8,12 +8,11 @@
   Copyright: Entreprise Ecole CFPT-I © 2018
  */
 
-require_once 'php/fonctions.php';
+require_once "php/fonctions.php";
 
 $id = filter_input(INPUT_POST, "id", FILTER_SANITIZE_STRING);
 $pwd = filter_input(INPUT_POST, "pwd", FILTER_SANITIZE_STRING);
 $message = "";
-
 
 if (login($id, $pwd)) {
     header("Location: confirmation.php");
@@ -26,6 +25,7 @@ if (login($id, $pwd)) {
 <html>
     <head>
         <meta charset="UTF-8">
+          <link rel="stylesheet" type="text/css" href="css/style.css">
         <title>Forum</title>
     </head>
     <body>
@@ -33,9 +33,9 @@ if (login($id, $pwd)) {
             <fieldset>
                 <legend>Connexion</legend>
                 Identifiant:<br>
-                <input type="text" name="id" value=""><br>
+                <input type="text" name="id" value="" required autofocus><br>
                 Mot de passe:<br>
-                <input type="password" name="pwd" value=""><br><br>
+                <input type="password" name="pwd" value="" required><br><br>
                 <input type="submit" value="Valider">
             </fieldset>   
             <a href="inscription.php">Pas encore inscrit?</a>
